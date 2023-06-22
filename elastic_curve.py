@@ -1,5 +1,6 @@
-import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import sympy as sp
 from typing import Callable, Optional
@@ -23,9 +24,9 @@ fig = plt.figure(figsize=(16, 9))
 ax_V = plt.subplot(3, 2, (1, 2))
 ax_M = plt.subplot(3, 2, (3, 4))
 ax_v = plt.subplot(3, 2, (5, 6))
-line_V: Optional[plt.Line2D] = None
-line_M: Optional[plt.Line2D] = None
-line_v: Optional[plt.Line2D] = None
+line_V: Optional[Line2D] = None
+line_M: Optional[Line2D] = None
+line_v: Optional[Line2D] = None
 
 ###########################################
 ############ sympy globol vars ############

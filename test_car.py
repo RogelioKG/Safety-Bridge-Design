@@ -6,7 +6,7 @@ from elastic_curve import *
 ###########################################
 
 
-line_car: Optional[plt.Line2D] = None
+line_car: Optional[Line2D] = None
 
 
 ###########################################
