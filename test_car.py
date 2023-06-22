@@ -1,6 +1,18 @@
 from elastic_curve import *
 
-line_car: Line2D = None
+
+###########################################
+########## matplotlib globol vars #########
+###########################################
+
+
+line_car: Optional[plt.Line2D] = None
+
+
+###########################################
+############### globol vars ###############
+###########################################
+
 
 frames = 120
 car_len = 5      # (m)
@@ -20,6 +32,11 @@ support = {
             "type": "roller",
             "pos": 40    # (m)
           }
+
+
+###########################################
+################ functions ################
+###########################################
 
 
 def Load(frame):
@@ -49,9 +66,15 @@ def Draw_Car(start, end):
 def Run(frame):
     loadings, (start, end) = Load(frame)
     V, M, v = Calculate(beam, loadings, support=support)
-    V, M, v = Convert_To_Func(V, M, v)
+    V, M, v = Convert_To_Func([V, M, v])
     Draw((V, M, v), beam, support=support)
     Draw_Car(start, end)
+
+
+###########################################
+################### main ##################
+###########################################
+
 
 if __name__ == "__main__":
     ani = animation.FuncAnimation(fig, Run, frames=frames, interval=10, repeat=False)
