@@ -2,6 +2,8 @@
 ### 【剪力、彎矩、撓度】可視化與動態可視化
 + **Version: Python 3.10.9**
 
+![alt](https://raw.githubusercontent.com/RogelioKG/Safety-Bridge-Design/main/animation.gif)
+
 > ### **`Execute`**
 > 
 > 在 Safety-Bridge-Design 目錄下執行 CMD，輸入： 
