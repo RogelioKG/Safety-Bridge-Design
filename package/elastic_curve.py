@@ -20,25 +20,24 @@ x = sp.symbols("x")
 ################ functions ################
 ###########################################
 
-
-def Calculate(
-    beam: Beam, loadings: list[Loading], *, support: Optional[Support] = None
+def calculate(
+    beam: Beam, loadings: list[Loading], support: Optional[Support] = None
 ) -> list[sp.Expr]:
     """
     靜定系統中多重負載樑之撓度
     @return - [V, M, v]
     """
     pow_dict = {"M": -2, "F": -1, "w": 0, "m": 1}
-    
+
     if beam.type == "cantilevered":
         assert support is None
 
+    loadings = Loading.splitter(loadings)
+
     E, I, L = beam.E, beam.I, beam.L
-    
 
     w = sum(
-        loading.val
-        * sp.SingularityFunction(x, loading.pos, pow_dict[loading.type])
+        loading.val * sp.SingularityFunction(x, loading.pos, pow_dict[loading.type])
         for loading in loadings
         if loading.pos != L
     )
@@ -61,7 +60,7 @@ def Calculate(
     return [V, M, v]
 
 
-def Simplify_SF(expr: sp.Expr) -> sp.Expr:
+def simplify_SF(expr: sp.Expr) -> sp.Expr:
     """
     該函數將所有出現在 expression 中的 SingularityFunction 轉換成 Piecewise。
     需要這麼做的原因，是因為 SingularityFunction 無法 lambdify，而 Piecewise 可被 lambdify。
@@ -81,9 +80,9 @@ def Simplify_SF(expr: sp.Expr) -> sp.Expr:
     return expr
 
 
-def Convert_To_Func(exprs: list[sp.Expr]) -> tuple[Func, ...]:
+def convert_to_Func(exprs: list[sp.Expr]) -> tuple[Func, ...]:
     """
-    SingularityFunction Expr -> (Simplify_SF) -> Piecewise Expr -> (lambdify) -> Func
+    SingularityFunction Expr -> (simplify_SF) -> Piecewise Expr -> (lambdify) -> Func
     """
 
-    return tuple(map(sp.lambdify, [x] * len(exprs), map(Simplify_SF, exprs)))
+    return tuple(map(sp.lambdify, [x] * len(exprs), map(simplify_SF, exprs)))

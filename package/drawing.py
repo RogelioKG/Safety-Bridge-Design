@@ -39,46 +39,54 @@ LINE_car: Optional[Line2D] = None
 ###########################################
 
 
-def Draw_Shear(V: sp.Expr, xdata: np.ndarray) -> None:
+def draw_shear(V: sp.Expr, xdata: np.ndarray) -> None:
     global AX_V, LINE_V
     ydata = V(xdata)
+
     if LINE_V is None:
         (LINE_V,) = AX_V.plot(xdata, ydata, color="r", linestyle="-")
         AX_V.set_xlabel("Position (m)")
         AX_V.set_ylabel("Shear Force (kN)")
+        AX_V.fill_between(xdata, ydata, color="r", alpha=0.3)
     else:
         LINE_V.set_data(xdata, ydata)
         AX_V.fill_between(xdata, ydata, color="r", alpha=0.01)
 
 
-def Draw_Bending_Moment(M: sp.Expr, xdata: np.ndarray) -> None:
+def draw_bending_moment(M: sp.Expr, xdata: np.ndarray) -> None:
     global AX_M, LINE_M
     ydata = M(xdata)
+
     if LINE_M is None:
         (LINE_M,) = AX_M.plot(xdata, ydata, color="g", linestyle="-")
         AX_M.set_xlabel("Position (m)")
         AX_M.set_ylabel("Bending Moment (kN•m)")
+        AX_M.fill_between(xdata, ydata, color="g", alpha=0.3)
     else:
         LINE_M.set_data(xdata, ydata)
         AX_M.fill_between(xdata, ydata, color="g", alpha=0.01)
 
 
-def Draw_Deflection(v: sp.Expr, xdata: np.ndarray, pos: int) -> None:
+def draw_deflection(v: sp.Expr, xdata: np.ndarray, pos: int) -> None:
     global AX_v, LINE_v
     ydata = v(xdata)
+
     if LINE_v is None:
         (LINE_v,) = AX_v.plot(xdata, ydata, color="purple", linestyle="--", alpha=0.5)
-        AX_v.plot([0, xdata[-1]], [0, 0], color="b")
-        AX_v.scatter([0, pos], [0, 0], color="b")
+        AX_v.plot([0, xdata[-1]], [0, 0], color="b") # blue line
+        AX_v.scatter([0, pos], [0, 0], color="b") # two blue points
         AX_v.set_xlabel("Position (m)")
         AX_v.set_ylabel("Deflection (m)")
     else:
         LINE_v.set_data(xdata, ydata)
-        AX_v.fill_between(xdata, ydata, color="purple", alpha=0)
 
 
-def Draw(
-    funcs: tuple[Func, Func, Func], beam: Beam, *, support: Optional[Support] = None
+def draw_all(
+    funcs: tuple[Func, Func, Func],
+    beam: Beam,
+    support: Optional[Support] = None,
+    *,
+    prec: int = 10000
 ) -> None:
     L = beam.L
     V, M, v = funcs
@@ -89,8 +97,8 @@ def Draw(
         assert support is None
         pos = 0
 
-    xdata = np.linspace(L / 10000, L, 10000)
+    xdata = np.linspace(L / prec, L, prec)
 
-    Draw_Shear(V, xdata)
-    Draw_Bending_Moment(M, xdata)
-    Draw_Deflection(v, xdata, pos)
+    draw_shear(V, xdata)
+    draw_bending_moment(M, xdata)
+    draw_deflection(v, xdata, pos)

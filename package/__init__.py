@@ -1,3 +1,2 @@
-__all__ = ["elastic_curve", "draw", "elements"]
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __author__ = "RogelioKG"

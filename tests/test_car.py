@@ -5,9 +5,8 @@ import os
 import matplotlib.animation as animation
 
 # local
-from ..package.elastic_curve import *
-from ..package.drawing import *
-from ..package.elements import *
+from ..package.test_API import *
+from ..package.drawing import FIG, AX_v, LINE_car
 
 
 # ⚠️ 外部負載的力矩在 Macaulay 中，順時鐘為正
@@ -41,7 +40,7 @@ support = Support(
 ###########################################
 
 
-def Load(frame):
+def load(frame):
     distance = bridge_len - car_len
     start = distance * (frame / frames)
     mid = start + car_len / 2
@@ -51,15 +50,14 @@ def Load(frame):
 
     loadings = [
         Loading(type = "F", val = +Fl, pos = 0),
-        Loading(type = "w", val = -w, pos = start),
-        Loading(type = "w", val = +w, pos = end),
+        Loading(type = "w", val = -w, pos = (start, end)),
         Loading(type = "F", val = +Fr, pos = bridge_len),
     ]
 
-    return loadings, (start, end)
+    return loadings, start, end
 
 
-def Draw_Car(start, end):
+def draw_car(start, end):
     global LINE_car, AX_v
     if LINE_car is None:
         (LINE_car,) = AX_v.plot(
@@ -69,12 +67,10 @@ def Draw_Car(start, end):
         LINE_car.set_data([start, start, end, end], [0, 0.0006, 0.0006, 0])
 
 
-def Run(frame):
-    loadings, (start, end) = Load(frame)
-    V, M, v = Calculate(beam, loadings, support=support)
-    V, M, v = Convert_To_Func([V, M, v])
-    Draw((V, M, v), beam, support=support)
-    Draw_Car(start, end)
+def run(frame):
+    loadings, start, end = load(frame)
+    draw(beam, loadings, support)
+    draw_car(start, end)
 
 
 ###########################################
@@ -83,6 +79,6 @@ def Run(frame):
 
 
 if __name__ == "__main__":
-    ani = animation.FuncAnimation(FIG, Run, frames=frames, interval=10, repeat=False)
+    ani = animation.FuncAnimation(FIG, run, frames=frames, interval=10, repeat=False)
     ani_path = os.path.dirname(os.path.dirname(__file__)) + r"\animation.gif"
     ani.save(ani_path, writer="pillow", fps=24)

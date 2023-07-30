@@ -1,7 +1,5 @@
 # local
-from ..package.elastic_curve import *
-from ..package.drawing import *
-from ..package.elements import *
+from ..package.test_API import *
 
 # ⚠️ 外部負載的力矩在 Macaulay 中，順時鐘為正
 ###########################################
@@ -30,7 +28,5 @@ loadings = [
 
 
 if __name__ == "__main__":
-    V, M, v = Calculate(beam, loadings)
-    V, M, v = Convert_To_Func([V, M, v])
-    Draw((V, M, v), beam)
+    draw(beam, loadings)
     plt.show()
