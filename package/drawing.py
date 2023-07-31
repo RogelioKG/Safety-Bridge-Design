@@ -5,7 +5,6 @@ from typing import Optional
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import numpy as np
-import sympy as sp
 
 # local
 from .elements import *
@@ -39,8 +38,9 @@ LINE_CAR: Optional[Line2D] = None
 ###########################################
 
 
-def draw_shear(V: sp.Expr, xdata: np.ndarray) -> None:
+def draw_shear(V: Func, xdata: np.ndarray) -> None:
     global AX_SHEAR, LINE_SHEAR
+    print(type(V))
     ydata = V(xdata)
 
     if LINE_SHEAR is None:
@@ -53,7 +53,7 @@ def draw_shear(V: sp.Expr, xdata: np.ndarray) -> None:
         AX_SHEAR.fill_between(xdata, ydata, color="r", alpha=0.01)
 
 
-def draw_bending_moment(M: sp.Expr, xdata: np.ndarray) -> None:
+def draw_bending_moment(M: Func, xdata: np.ndarray) -> None:
     global AX_BENDING_MOMENT, LINE_BENDING_MOMENT
     ydata = M(xdata)
 
@@ -67,7 +67,7 @@ def draw_bending_moment(M: sp.Expr, xdata: np.ndarray) -> None:
         AX_BENDING_MOMENT.fill_between(xdata, ydata, color="g", alpha=0.01)
 
 
-def draw_deflection(v: sp.Expr, xdata: np.ndarray, pos: int) -> None:
+def draw_deflection(v: Func, xdata: np.ndarray, pos: int) -> None:
     global AX_DEFLECTION, LINE_DEFLECTION
     ydata = v(xdata)
 

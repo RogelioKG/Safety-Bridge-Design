@@ -42,7 +42,6 @@ class Loading:
                          Loading(type = "m", val = -loading.val * (end - start), pos = end)]
                     )
             else:
-                assert loading.type == "M" or loading.type == "F"
                 unpacked_loadings.append(loading)
         return unpacked_loadings
 
