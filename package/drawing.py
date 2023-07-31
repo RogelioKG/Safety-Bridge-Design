@@ -25,13 +25,13 @@ plt.style.use("seaborn-v0_8-whitegrid")
 
 
 FIG = plt.figure(figsize=(16, 9))
-AX_V = plt.subplot(3, 2, (1, 2))
-AX_M = plt.subplot(3, 2, (3, 4))
-AX_v = plt.subplot(3, 2, (5, 6))
-LINE_V: Optional[Line2D] = None
-LINE_M: Optional[Line2D] = None
-LINE_v: Optional[Line2D] = None
-LINE_car: Optional[Line2D] = None
+AX_SHEAR = plt.subplot(3, 2, (1, 2))
+AX_BENDING_MOMENT = plt.subplot(3, 2, (3, 4))
+AX_DEFLECTION = plt.subplot(3, 2, (5, 6))
+LINE_SHEAR: Optional[Line2D] = None
+LINE_BENDING_MOMENT: Optional[Line2D] = None
+LINE_DEFLECTION: Optional[Line2D] = None
+LINE_CAR: Optional[Line2D] = None
 
 
 ###########################################
@@ -40,45 +40,45 @@ LINE_car: Optional[Line2D] = None
 
 
 def draw_shear(V: sp.Expr, xdata: np.ndarray) -> None:
-    global AX_V, LINE_V
+    global AX_SHEAR, LINE_SHEAR
     ydata = V(xdata)
 
-    if LINE_V is None:
-        (LINE_V,) = AX_V.plot(xdata, ydata, color="r", linestyle="-")
-        AX_V.set_xlabel("Position (m)")
-        AX_V.set_ylabel("Shear Force (kN)")
-        AX_V.fill_between(xdata, ydata, color="r", alpha=0.3)
+    if LINE_SHEAR is None:
+        (LINE_SHEAR,) = AX_SHEAR.plot(xdata, ydata, color="r", linestyle="-")
+        AX_SHEAR.set_xlabel("Position (m)")
+        AX_SHEAR.set_ylabel("Shear Force (kN)")
+        AX_SHEAR.fill_between(xdata, ydata, color="r", alpha=0.3)
     else:
-        LINE_V.set_data(xdata, ydata)
-        AX_V.fill_between(xdata, ydata, color="r", alpha=0.01)
+        LINE_SHEAR.set_data(xdata, ydata)
+        AX_SHEAR.fill_between(xdata, ydata, color="r", alpha=0.01)
 
 
 def draw_bending_moment(M: sp.Expr, xdata: np.ndarray) -> None:
-    global AX_M, LINE_M
+    global AX_BENDING_MOMENT, LINE_BENDING_MOMENT
     ydata = M(xdata)
 
-    if LINE_M is None:
-        (LINE_M,) = AX_M.plot(xdata, ydata, color="g", linestyle="-")
-        AX_M.set_xlabel("Position (m)")
-        AX_M.set_ylabel("Bending Moment (kN•m)")
-        AX_M.fill_between(xdata, ydata, color="g", alpha=0.3)
+    if LINE_BENDING_MOMENT is None:
+        (LINE_BENDING_MOMENT,) = AX_BENDING_MOMENT.plot(xdata, ydata, color="g", linestyle="-")
+        AX_BENDING_MOMENT.set_xlabel("Position (m)")
+        AX_BENDING_MOMENT.set_ylabel("Bending Moment (kN•m)")
+        AX_BENDING_MOMENT.fill_between(xdata, ydata, color="g", alpha=0.3)
     else:
-        LINE_M.set_data(xdata, ydata)
-        AX_M.fill_between(xdata, ydata, color="g", alpha=0.01)
+        LINE_BENDING_MOMENT.set_data(xdata, ydata)
+        AX_BENDING_MOMENT.fill_between(xdata, ydata, color="g", alpha=0.01)
 
 
 def draw_deflection(v: sp.Expr, xdata: np.ndarray, pos: int) -> None:
-    global AX_v, LINE_v
+    global AX_DEFLECTION, LINE_DEFLECTION
     ydata = v(xdata)
 
-    if LINE_v is None:
-        (LINE_v,) = AX_v.plot(xdata, ydata, color="purple", linestyle="--", alpha=0.5)
-        AX_v.plot([0, xdata[-1]], [0, 0], color="b") # blue line
-        AX_v.scatter([0, pos], [0, 0], color="b") # two blue points
-        AX_v.set_xlabel("Position (m)")
-        AX_v.set_ylabel("Deflection (m)")
+    if LINE_DEFLECTION is None:
+        (LINE_DEFLECTION,) = AX_DEFLECTION.plot(xdata, ydata, color="purple", linestyle="--", alpha=0.5)
+        AX_DEFLECTION.plot([0, xdata[-1]], [0, 0], color="b") # blue line
+        AX_DEFLECTION.scatter([0, pos], [0, 0], color="b") # two blue points
+        AX_DEFLECTION.set_xlabel("Position (m)")
+        AX_DEFLECTION.set_ylabel("Deflection (m)")
     else:
-        LINE_v.set_data(xdata, ydata)
+        LINE_DEFLECTION.set_data(xdata, ydata)
 
 
 def draw_all(

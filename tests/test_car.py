@@ -6,7 +6,7 @@ import matplotlib.animation as animation
 
 # local
 from ..package.test_API import *
-from ..package.drawing import FIG, AX_v, LINE_car
+from ..package.drawing import FIG, AX_DEFLECTION, LINE_CAR
 
 
 # ⚠️ 外部負載的力矩在 Macaulay 中，順時鐘為正
@@ -58,13 +58,13 @@ def load(frame):
 
 
 def draw_car(start, end):
-    global LINE_car, AX_v
-    if LINE_car is None:
-        (LINE_car,) = AX_v.plot(
+    global LINE_CAR, AX_DEFLECTION
+    if LINE_CAR is None:
+        (LINE_CAR,) = AX_DEFLECTION.plot(
             [start, start, end, end], [0, 0.0006, 0.0006, 0], color="black"
         )
     else:
-        LINE_car.set_data([start, start, end, end], [0, 0.0006, 0.0006, 0])
+        LINE_CAR.set_data([start, start, end, end], [0, 0.0006, 0.0006, 0])
 
 
 def run(frame):
