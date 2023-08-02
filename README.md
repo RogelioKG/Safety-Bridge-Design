@@ -12,7 +12,7 @@
 > ```
 > 接著輸入想測試的檔案名稱
 > ```
-> test test_file_name: 檔案名稱(需放置於 tests 目錄)
+> test file name: 檔案名稱(需放置於 tests 目錄)
 > ```
 
 > ### **`Patch Notes`**
