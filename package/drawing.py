@@ -40,7 +40,6 @@ LINE_CAR: Optional[Line2D] = None
 
 def draw_shear(V: Func, xdata: np.ndarray) -> None:
     global AX_SHEAR, LINE_SHEAR
-    print(type(V))
     ydata = V(xdata)
 
     if LINE_SHEAR is None:
